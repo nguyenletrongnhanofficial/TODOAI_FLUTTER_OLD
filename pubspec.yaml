@@ -1,0 +1,40 @@
+name: todoai
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.3 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  rive: ^0.9.1
+  flutter_svg: ^1.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/avatars/
+    - assets/backgrounds/
+    - assets/icons/
+    - assets/rive_assets/
+    - assets/images/
+  fonts:
+    - family: TodoAi-Bold
+      fonts:
+        - asset: assets/fonts/TodoAi-Bold.ttf
+
+    - family: TodoAi-Book
+      fonts:
+        - asset: assets/fonts/TodoAi-Book.ttf
+
+    - family: TodoAi-Medium
+      fonts:
+        - asset: assets/fonts/TodoAi-Medium.ttf
