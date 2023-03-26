@@ -70,14 +70,15 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                     SizedBox(
                       width: 260,
                       child: Column(
-                        children: const [
-                          Text(
-                            "TodoAi",
-                            style: TextStyle(
-                              fontSize: 60,
-                              fontFamily: 'TodoAi-Bold',
-                            ),
-                          ),
+                        children: [
+                          // Text(
+                          //   "TodoAi",
+                          //   style: TextStyle(
+                          //     fontSize: 60,
+                          //     fontFamily: 'TodoAi-Bold',
+                          //   ),
+                          // ),
+                          Image.asset("assets/images/todoai_ic.png"),
                           SizedBox(height: 16),
                           Text(
                             "Ứng dụng sắp xếp lịch tự động bằng trí tuệ nhân tạo",
@@ -88,6 +89,10 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                           ),
                         ],
                       ),
+                    ),
+                    const Spacer(flex: 2),
+                    Image.asset(
+                      "assets/images/robot_new.gif",
                     ),
                     const Spacer(flex: 2),
                     AnimatedBtn(
