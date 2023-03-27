@@ -10,11 +10,7 @@ import 'providers/card_profile_provider.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 
-import 'package:provider/provider.dart';
-import '/providers/user_provider.dart';
-import 'providers/card_profile_provider.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final screens = [];
 void main() {
