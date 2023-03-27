@@ -33,7 +33,7 @@ class CalendarWeek extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text('Thứ 2'),
+                          const Text('Mon'),
                           const SizedBox(
                             height: 5,
                           ),
@@ -59,7 +59,7 @@ class CalendarWeek extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text('Thứ 3'),
+                          const Text('Tue'),
                           const SizedBox(
                             height: 5,
                           ),
@@ -85,7 +85,7 @@ class CalendarWeek extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text('Thứ 4'),
+                          const Text('Wed'),
                           const SizedBox(
                             height: 5,
                           ),
@@ -111,7 +111,7 @@ class CalendarWeek extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text('Thứ 5'),
+                          const Text('Thu'),
                           const SizedBox(
                             height: 5,
                           ),
@@ -137,7 +137,7 @@ class CalendarWeek extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text('Thứ 6'),
+                          const Text('Fri'),
                           const SizedBox(
                             height: 5,
                           ),
@@ -163,7 +163,7 @@ class CalendarWeek extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text('Thứ 7'),
+                          const Text('Sat'),
                           const SizedBox(
                             height: 5,
                           ),
@@ -189,7 +189,7 @@ class CalendarWeek extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text('CN'),
+                          const Text('Sun'),
                           const SizedBox(
                             height: 5,
                           ),

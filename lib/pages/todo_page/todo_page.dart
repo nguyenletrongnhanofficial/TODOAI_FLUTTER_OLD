@@ -4,6 +4,7 @@ import 'package:todoai/models/task.dart';
 import 'package:todoai/models/task_model.dart';
 import 'dart:core';
 import 'package:todoai/pages/todo_page/calendar_week.dart';
+import 'package:todoai/pages/todo_page/circle_progress.dart';
 import 'package:todoai/pages/todo_page/list_item_widget.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 //
@@ -61,129 +62,128 @@ class _TodoPageState extends State<TodoPage> {
     final userCurrent = Provider.of<CardProfileProvider>(context).user;
     int x = 3;
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(top: 5),
-            height: 70,
-            child: Row(
-              children: [
-                const SizedBox(width: 5),
-                SizedBox(
-                  height: 60,
-                  width: 45,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      const Positioned(
-                        height: 45,
-                        bottom: 8,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/icons/avatar.png'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 5),
+              height: 70,
+              child: Row(
+                children: [
+                  const SizedBox(width: 5),
+                  SizedBox(
+                    height: 60,
+                    width: 45,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        const Positioned(
+                          height: 45,
+                          bottom: 8,
+                          child: CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/icons/avatar.png'),
+                          ),
                         ),
-                      ),
-                      Positioned(
-                          bottom: 2,
-                          right: 0,
-                          child: Container(
-                            height: 18,
-                            width: 25,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.white, width: 1),
-                                color: Colors.green),
-                            child: Row(
-                              children: [
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Image.asset('assets/icons/iconVector.png'),
-                                const SizedBox(width: 2),
-                                const Text(
-                                  '9',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'TodoAi-Bold',
-                                      fontSize: 12),
-                                )
-                              ],
-                            ),
-                          )),
-                    ],
+                        Positioned(
+                            bottom: 2,
+                            right: 0,
+                            child: Container(
+                              height: 18,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: Colors.white, width: 1),
+                                  color: Colors.green),
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Image.asset('assets/icons/iconVector.png'),
+                                  const SizedBox(width: 2),
+                                  const Text(
+                                    '9',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'TodoAi-Bold',
+                                        fontSize: 12),
+                                  )
+                                ],
+                              ),
+                            )),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: 60,
-                  width: 100,
-                  margin: const EdgeInsets.only(top: 15, right: 10),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Xin chào 👋',
-                        style:
-                            TextStyle(fontFamily: 'TodoAi-Book', fontSize: 15),
-                      ),
-                      Text(
-                        '${userCurrent?.name}',
-                        style:
-                            TextStyle(fontFamily: 'TodoAi-Bold', fontSize: 15),
-                      )
-                    ],
+                  Container(
+                    height: 60,
+                    width: 100,
+                    margin: const EdgeInsets.only(top: 15, right: 10),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Xin chào 👋',
+                          style:
+                              TextStyle(fontFamily: 'TodoAi-Book', fontSize: 15),
+                        ),
+                        Text(
+                          '${userCurrent?.name}',
+                          style:
+                              const TextStyle(fontFamily: 'TodoAi-Bold', fontSize: 15),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Image.asset('assets/icons/search_icon.png'),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Image.asset('assets/icons/notify_icon.png'),
-                      ),
-                      const Padding(padding: EdgeInsets.only(right: 5))
-                    ],
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Image.asset('assets/icons/search_icon.png'),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Image.asset('assets/icons/notify_icon.png'),
+                        ),
+                        const Padding(padding: EdgeInsets.only(right: 5))
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 30,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  DateFormat.yMMMMd().format(DateTime.now()).toString(),
-                  style: const TextStyle(fontSize: 20),
-                ),
-                Image.asset('assets/icons/chevron_icon.png')
-              ],
+            SizedBox(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    DateFormat.yMMMMd().format(DateTime.now()).toString(),
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  Image.asset('assets/icons/chevron_icon.png')
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 25,
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                Image.asset('assets/icons/loudspeaker_icon.png'),
-                Text('Bạn có $x công việc cần làm trong hôm nay')
-              ],
+            SizedBox(
+              height: 25,
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Image.asset('assets/icons/loudspeaker_icon.png'),
+                  Text('Bạn có $x công việc cần làm trong hôm nay')
+                ],
+              ),
             ),
-          ),
-          const CalendarWeek(),
-          const SizedBox(
-            height: 5,
-          ),
-          SizedBox(
-            height: 170,
-            child: SingleChildScrollView(
+            const CalendarWeek(),
+            const SizedBox(
+              height: 5,
+            ),
+            SizedBox(         
               child: AnimatedList(
                   shrinkWrap: true,
                   key: list1Key,
@@ -195,120 +195,11 @@ class _TodoPageState extends State<TodoPage> {
                             _removeItemFromList1AndAddToAnimatedList2(index),
                       )),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            height: 70,
-            color: Colors.transparent,
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text('Đã hoàn thành'),
-                Expanded(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CircularPercentIndicator(
-                      radius: 28,
-                      percent: 0.6,
-                      progressColor: Colors.lightGreen,
-                      backgroundColor: Colors.lightGreen.shade100,
-                      circularStrokeCap: CircularStrokeCap.round,
-                      center: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            '60%',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.lightGreen,
-                            ),
-                          ),
-                          Text(
-                            'Ngày',
-                            style: TextStyle(
-                                fontSize: 8, color: Colors.lightGreen),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    CircularPercentIndicator(
-                      radius: 28,
-                      percent: 0.5,
-                      progressColor: Colors.deepPurple,
-                      backgroundColor: Colors.deepPurple.shade100,
-                      circularStrokeCap: CircularStrokeCap.round,
-                      center: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            '50%',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.deepPurple,
-                            ),
-                          ),
-                          Text(
-                            'Tuần',
-                            style: TextStyle(
-                                fontSize: 8, color: Colors.deepPurple),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    CircularPercentIndicator(
-                      radius: 28,
-                      percent: 0.4,
-                      progressColor: Colors.red,
-                      backgroundColor: Colors.red.shade100,
-                      circularStrokeCap: CircularStrokeCap.round,
-                      center: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            '40%',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.red,
-                            ),
-                          ),
-                          Text(
-                            'Tháng',
-                            style: TextStyle(fontSize: 8, color: Colors.red),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                )),
-              ],
+            const SizedBox(
+              height: 20,
             ),
-          ),
-          SizedBox(
-            height: 170,
-            child: SingleChildScrollView(
+            const CircleProgress(),
+            SizedBox(         
               child: AnimatedList(
                   shrinkWrap: true,
                   key: list2Key,
@@ -319,8 +210,9 @@ class _TodoPageState extends State<TodoPage> {
                         onClicked: () {},
                       )),
             ),
-          )
-        ],
+         
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: addTask,
@@ -344,7 +236,7 @@ class _TodoPageState extends State<TodoPage> {
   void addTask() {
     final newIndex = 0;
     final newTask =
-        ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
+        const ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
     tasks.insert(newIndex, newTask);
     list1Key.currentState!.insertItem(newIndex);
   }
@@ -359,7 +251,7 @@ class _TodoPageState extends State<TodoPage> {
     });
     final newIndex = 0;
     final newTask =
-        ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
+        const ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
     taskSucces.insert(newIndex, newTask);
     list2Key.currentState!.insertItem(newIndex);
   }
