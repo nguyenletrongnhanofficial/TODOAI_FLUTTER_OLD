@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import '/pages/entryPoint/entry_point.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '/providers/user_provider.dart';
+import 'package:http/http.dart';
+import '/config/config.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -15,6 +22,9 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController password = TextEditingController();
+
   bool isShowLoading = false;
   bool isShowConfetti = false;
   late SMITrigger error;
@@ -49,8 +59,24 @@ class _SignInFormState extends State<SignInForm> {
     });
     Future.delayed(
       const Duration(seconds: 1),
-      () {
-        if (_formKey.currentState!.validate()) {
+      () async {
+        Response response = await post(
+          Uri.parse('$baseUrl/auth/login'),
+          body: {'phone': phone.text, 'password': password.text},
+        );
+        if (response.statusCode == 200) {
+          final extractedData =
+              json.decode(response.body) as Map<String, dynamic>;
+          if (extractedData == null) {
+            return;
+          }
+          print(extractedData["userid"]);
+
+          Provider.of<UserProvider>(context, listen: false)
+              .setCurrentUserId(extractedData["userid"]);
+          await Future.delayed(const Duration(seconds: 1));
+          if (!mounted) return;
+          saveAccount(phone.text, password.text);
           success.fire();
           Future.delayed(
             const Duration(seconds: 2),
@@ -87,6 +113,12 @@ class _SignInFormState extends State<SignInForm> {
     );
   }
 
+  void saveAccount(String phone, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('phone', phone);
+    prefs.setString('password', password);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -105,6 +137,7 @@ class _SignInFormState extends State<SignInForm> {
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 16),
                 child: TextFormField(
+                  controller: phone,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "";
@@ -128,6 +161,7 @@ class _SignInFormState extends State<SignInForm> {
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 16),
                 child: TextFormField(
+                  controller: password,
                   obscureText: true,
                   validator: (value) {
                     if (value!.isEmpty) {

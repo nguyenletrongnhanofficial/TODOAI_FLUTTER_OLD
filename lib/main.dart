@@ -3,10 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:todoai/pages/todo_page/todo_page.dart';
 import 'pages/entryPoint/entry_point.dart';
 import 'pages/onboding/onboding_screen.dart';
+import 'package:provider/provider.dart';
+import '/providers/user_provider.dart';
+import 'providers/card_profile_provider.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 
+import 'package:provider/provider.dart';
+import '/providers/user_provider.dart';
+import 'providers/card_profile_provider.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+final screens = [];
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider.value(value: UserProvider()),
+    ChangeNotifierProvider.value(value: CardProfileProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
