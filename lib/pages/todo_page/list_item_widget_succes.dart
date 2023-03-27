@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:todoai/models/task.dart';
 
-class ListItemWidget extends StatelessWidget {
-  final ListTask task;
+class ItemSucces extends StatelessWidget {
+   final ListTask task;
   final Animation<double> animation;
   final VoidCallback? onClicked;
 
-  const ListItemWidget({
+ const ItemSucces({
     super.key,
     required this.animation,
     required this.task,
@@ -16,24 +16,21 @@ class ListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SizeTransition(
         sizeFactor: animation,
-        child: buildTask(),
+        child: buildTaskSucces(),
       );
 
-  Widget buildTask() => Container(
+  Widget buildTaskSucces() => Container(
         height: 50,
         margin: const EdgeInsets.only(left: 8, right: 8, bottom: 3, top: 3),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
+          color: Colors.transparent,
         ),
         child: Row(
           children: [
-            Container(
+            const SizedBox(
               height: 30,
-              width: 4,
-              decoration: BoxDecoration(
-                  color: Color(task.color),
-                  borderRadius: BorderRadius.circular(12)),
+              width: 4,             
             ),
             const SizedBox(
               width: 10,
@@ -46,17 +43,21 @@ class ListItemWidget extends StatelessWidget {
                   children: [
                     Text(
                       task.title,
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                          color: const Color(0xFF1B1B1D).withOpacity(0.3),
+                          decoration: TextDecoration.lineThrough
+                          ),
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
                       task.date,
-                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                      style: TextStyle(fontSize: 10, 
+                      color: const Color(0xFF1B1B1D).withOpacity(0.3), 
+                      decoration: TextDecoration.lineThrough),
                     )
                   ],
                 ),
@@ -66,10 +67,9 @@ class ListItemWidget extends StatelessWidget {
               padding: const EdgeInsets.only(right: 5),
               child: IconButton(
                   onPressed: 
-                    onClicked
-                    
+                    onClicked                 
                   ,
-                  icon: Image.asset('assets/icons/Checkbox.png')),
+                  icon: Image.asset('assets/icons/checkbox_icon.png')),
             )
           ],
         ),

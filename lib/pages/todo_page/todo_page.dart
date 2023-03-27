@@ -9,6 +9,7 @@ import 'package:todoai/pages/todo_page/list_item_widget.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 //
 import 'package:flutter/material.dart';
+import 'package:todoai/pages/todo_page/list_item_widget_succes.dart';
 import '/models/course.dart';
 import 'package:provider/provider.dart';
 import '/providers/card_profile_provider.dart';
@@ -124,13 +125,13 @@ class _TodoPageState extends State<TodoPage> {
                       children: [
                         const Text(
                           'Xin chào 👋',
-                          style:
-                              TextStyle(fontFamily: 'TodoAi-Book', fontSize: 15),
+                          style: TextStyle(
+                              fontFamily: 'TodoAi-Book', fontSize: 15),
                         ),
                         Text(
                           '${userCurrent?.name}',
-                          style:
-                              const TextStyle(fontFamily: 'TodoAi-Bold', fontSize: 15),
+                          style: const TextStyle(
+                              fontFamily: 'TodoAi-Bold', fontSize: 15),
                         )
                       ],
                     ),
@@ -183,7 +184,7 @@ class _TodoPageState extends State<TodoPage> {
             const SizedBox(
               height: 5,
             ),
-            SizedBox(         
+            SizedBox(
               child: AnimatedList(
                   shrinkWrap: true,
                   key: list1Key,
@@ -199,18 +200,18 @@ class _TodoPageState extends State<TodoPage> {
               height: 20,
             ),
             const CircleProgress(),
-            SizedBox(         
+            SizedBox(
               child: AnimatedList(
                   shrinkWrap: true,
                   key: list2Key,
                   initialItemCount: taskSucces.length,
-                  itemBuilder: (context, index, animation) => ListItemWidget(
+                  itemBuilder: (context, index, animation) => ItemSucces(
                         task: taskSucces[index],
                         animation: animation,
-                        onClicked: () {},
+                        onClicked: () => 
+                          removeItemFromList2AndAddToAnimatedList1(index),
                       )),
             ),
-         
           ],
         ),
       ),
@@ -234,9 +235,10 @@ class _TodoPageState extends State<TodoPage> {
   }
 
   void addTask() {
-    final newIndex = 0;
-    final newTask =
-        const ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
+    const newIndex = 0;
+    
+    const newTask =
+        ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
     tasks.insert(newIndex, newTask);
     list1Key.currentState!.insertItem(newIndex);
   }
@@ -249,10 +251,24 @@ class _TodoPageState extends State<TodoPage> {
       return ListItemWidget(
           animation: animation, task: removeTask, onClicked: () {});
     });
-    final newIndex = 0;
-    final newTask =
-        const ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
+    const newIndex = 0;
+    const newTask =
+        ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
     taskSucces.insert(newIndex, newTask);
     list2Key.currentState!.insertItem(newIndex);
+  }
+  void removeItemFromList2AndAddToAnimatedList1(int index) {
+    final removeTask = taskSucces[index];
+    taskSucces.removeAt(index);
+    list2Key.currentState?.removeItem(index,
+        (BuildContext context, Animation<double> animation) {
+      return ListItemWidget(
+          animation: animation, task: removeTask, onClicked: () {});
+    });
+    const newIndex = 0;
+    const newTask =
+        ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
+    tasks.insert(newIndex, newTask);
+    list1Key.currentState!.insertItem(newIndex);
   }
 }
