@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
-      home: const TodoPage(),
+      home: const OnbodingScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
