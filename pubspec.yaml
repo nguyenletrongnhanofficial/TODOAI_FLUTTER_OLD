@@ -29,7 +29,7 @@ flutter:
     - assets/backgrounds/
     - assets/icons/
     - assets/rive_assets/
-    - assets/images/
+  
   fonts:
     - family: TodoAi-Bold
       fonts:
