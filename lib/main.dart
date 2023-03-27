@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
+import 'package:todoai/pages/todo_page/todo_page.dart';
 import 'pages/entryPoint/entry_point.dart';
 import 'pages/onboding/onboding_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xFFEEF1F8),
         primarySwatch: Colors.blue,
@@ -27,7 +31,7 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
-      home: const OnbodingScreen(),
+      home: const TodoPage(),
       debugShowCheckedModeBanner: false,
     );
   }
