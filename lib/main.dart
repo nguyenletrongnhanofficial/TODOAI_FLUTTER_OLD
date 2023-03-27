@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:todoai/pages/todo_page/todo_page.dart';
 import 'pages/entryPoint/entry_point.dart';
 import 'pages/onboding/onboding_screen.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +8,9 @@ import '/providers/user_provider.dart';
 import 'providers/card_profile_provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+
+
 
 final screens = [];
 void main() {
@@ -23,6 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xFFEEF1F8),
         primarySwatch: Colors.blue,
@@ -37,7 +43,7 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
-      home: const OnbodingScreen(),
+      home: const TodoPage(),
       debugShowCheckedModeBanner: false,
     );
   }
