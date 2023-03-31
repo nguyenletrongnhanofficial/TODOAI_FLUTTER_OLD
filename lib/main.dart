@@ -6,6 +6,7 @@ import 'pages/onboding/onboding_screen.dart';
 import 'package:provider/provider.dart';
 import '/providers/user_provider.dart';
 import 'providers/card_profile_provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFFEEF1F8),
         primarySwatch: Colors.blue,
         fontFamily: "TodoAi-Bold",
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
           errorStyle: TextStyle(height: 0),
@@ -43,6 +44,15 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
+      localizationsDelegates: const [      
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      // ignore: prefer_const_literals_to_create_immutables
+      supportedLocales: [
+        const Locale('vi', 'VN'),
+        const Locale('en', 'US'),
+      ],
       home: const OnbodingScreen(),
       debugShowCheckedModeBanner: false,
     );

@@ -91,8 +91,13 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                       ),
                     ),
                     const Spacer(flex: 2),
-                    Image.asset(
-                      "assets/images/robot_new.gif",
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: Image.asset(
+                        "assets/images/robot_new.gif",
+                        fit: BoxFit.cover,
+                      ),
+                      
                     ),
                     const Spacer(flex: 2),
                     AnimatedBtn(
