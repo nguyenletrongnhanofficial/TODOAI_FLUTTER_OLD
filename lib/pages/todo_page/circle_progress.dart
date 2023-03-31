@@ -27,7 +27,7 @@ class _CircleProgressState extends State<CircleProgress> {
                     CircularPercentIndicator(
                       radius: 28,
                       percent: 0.6,
-                      progressColor: Colors.lightGreen,
+                      progressColor: Color(0xFF00FF8A),
                       backgroundColor: Colors.lightGreen.shade100,
                       circularStrokeCap: CircularStrokeCap.round,
                       center: Column(
@@ -40,13 +40,13 @@ class _CircleProgressState extends State<CircleProgress> {
                             '60%',
                             style: TextStyle(
                               fontSize: 20,
-                              color: Colors.lightGreen,
+                              color: Color(0xFF00FF8A),
                             ),
                           ),
                           Text(
                             'Ngày',
                             style: TextStyle(
-                                fontSize: 8, color: Colors.lightGreen),
+                                fontSize: 8, color: Color(0xFF00FF8A)),
                           )
                         ],
                       ),

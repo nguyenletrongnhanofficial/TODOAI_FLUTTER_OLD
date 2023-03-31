@@ -2,6 +2,8 @@ class ListTask {
   final String title;
   final String date;
   final int color;
+   bool isComplete;
 
-  const ListTask({required this.date, required this.title, required this.color});
+   ListTask(
+      {required this.date, required this.title, required this.color, this.isComplete = false});
 }

@@ -3,13 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:todoai/models/task.dart';
 import 'package:todoai/models/task_model.dart';
 import 'dart:core';
-import 'package:todoai/pages/todo_page/calendar_week.dart';
+import 'package:todoai/pages/todo_page/calendar_month.dart';
 import 'package:todoai/pages/todo_page/circle_progress.dart';
 import 'package:todoai/pages/todo_page/list_item_widget.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 //
 import 'package:flutter/material.dart';
-import 'package:todoai/pages/todo_page/list_item_widget_succes.dart';
 import '/models/course.dart';
 import 'package:provider/provider.dart';
 import '/providers/card_profile_provider.dart';
@@ -155,18 +154,9 @@ class _TodoPageState extends State<TodoPage> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 30,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    DateFormat.yMMMMd().format(DateTime.now()).toString(),
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  Image.asset('assets/icons/chevron_icon.png')
-                ],
-              ),
+            const CalendarMonth(),
+            const SizedBox(
+              height: 5,
             ),
             SizedBox(
               height: 25,
@@ -180,7 +170,6 @@ class _TodoPageState extends State<TodoPage> {
                 ],
               ),
             ),
-            const CalendarWeek(),
             const SizedBox(
               height: 5,
             ),
@@ -188,13 +177,20 @@ class _TodoPageState extends State<TodoPage> {
               child: AnimatedList(
                   shrinkWrap: true,
                   key: list1Key,
-                  initialItemCount: tasks.length,
-                  itemBuilder: (context, index, animation) => ListItemWidget(
+                  initialItemCount:
+                      tasks.length,
+                  itemBuilder: (context, index, animation) {
+                    
+                    if (tasks[index].isComplete) {
+                      return const SizedBox.shrink();
+                    } else {
+                      return ListItemWidget(
                         task: tasks[index],
                         animation: animation,
-                        onClicked: () =>
-                            _removeItemFromList1AndAddToAnimatedList2(index),
-                      )),
+                        onClicked: () => handleListItemClick(index),
+                      );
+                    }
+                  }),
             ),
             const SizedBox(
               height: 20,
@@ -204,19 +200,27 @@ class _TodoPageState extends State<TodoPage> {
               child: AnimatedList(
                   shrinkWrap: true,
                   key: list2Key,
-                  initialItemCount: taskSucces.length,
-                  itemBuilder: (context, index, animation) => ItemSucces(
-                        task: taskSucces[index],
+                  initialItemCount:
+                      tasks.length,
+                  itemBuilder: (context, index, animation) {
+                    
+                    if (tasks[index].isComplete) {
+                      return ListItemWidget(
+                        task: tasks[index],
                         animation: animation,
-                        onClicked: () => 
-                          removeItemFromList2AndAddToAnimatedList1(index),
-                      )),
+                        onClicked: () => handleListItemClick(index),
+                      );
+                    } else {
+                      
+                      return const SizedBox.shrink();
+                    }
+                  }),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: addTask,
+        onPressed: () {},
         child: Image.asset('assets/icons/Add_icon.png'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -234,41 +238,9 @@ class _TodoPageState extends State<TodoPage> {
     );
   }
 
-  void addTask() {
-    const newIndex = 0;
-    
-    const newTask =
-        ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
-    tasks.insert(newIndex, newTask);
-    list1Key.currentState!.insertItem(newIndex);
-  }
-
-  void _removeItemFromList1AndAddToAnimatedList2(int index) {
-    final removeTask = tasks[index];
-    tasks.removeAt(index);
-    list1Key.currentState?.removeItem(index,
-        (BuildContext context, Animation<double> animation) {
-      return ListItemWidget(
-          animation: animation, task: removeTask, onClicked: () {});
+  void handleListItemClick(int index) {
+    setState(() {
+      tasks[index].isComplete = !tasks[index].isComplete;
     });
-    const newIndex = 0;
-    const newTask =
-        ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
-    taskSucces.insert(newIndex, newTask);
-    list2Key.currentState!.insertItem(newIndex);
-  }
-  void removeItemFromList2AndAddToAnimatedList1(int index) {
-    final removeTask = taskSucces[index];
-    taskSucces.removeAt(index);
-    list2Key.currentState?.removeItem(index,
-        (BuildContext context, Animation<double> animation) {
-      return ListItemWidget(
-          animation: animation, task: removeTask, onClicked: () {});
-    });
-    const newIndex = 0;
-    const newTask =
-        ListTask(date: '11:00 am', title: 'Chơi game', color: 0xFF00FF8A);
-    tasks.insert(newIndex, newTask);
-    list1Key.currentState!.insertItem(newIndex);
   }
 }
