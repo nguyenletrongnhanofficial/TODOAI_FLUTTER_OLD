@@ -79,8 +79,8 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                           //   ),
                           // ),
                           Image.asset("assets/images/todoai_ic.png"),
-                          SizedBox(height: 16),
-                          Text(
+                          const SizedBox(height: 16),
+                          const Text(
                             "Ứng dụng sắp xếp lịch tự động bằng trí tuệ nhân tạo",
                             style: TextStyle(
                               fontSize: 20,
@@ -91,7 +91,7 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                       ),
                     ),
                     const Spacer(flex: 2),
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height * 0.3,
                       child: Image.asset(
                         "assets/images/robot_new.gif",

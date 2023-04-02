@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todoai/models/task.dart';
 import 'package:todoai/models/task_model.dart';
+import 'package:todoai/pages/todo_page/addTask.dart';
 import 'dart:core';
 import 'package:todoai/pages/todo_page/calendar_month.dart';
 import 'package:todoai/pages/todo_page/circle_progress.dart';
@@ -52,10 +53,10 @@ class _TodoPageState extends State<TodoPage> {
   }
 
   //
-  final list1Key = GlobalKey<AnimatedListState>();
-  final list2Key = GlobalKey<AnimatedListState>();
+  final focusNode = FocusNode();
+
   final List<ListTask> tasks = List.from(listTask);
-  final List<ListTask> taskSucces = List.from(listTaskSucces);
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +67,27 @@ class _TodoPageState extends State<TodoPage> {
         child: Column(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(top: 5),
+              margin: const EdgeInsets.only(top: 20, left: 20, right: 5),
               height: 70,
               child: Row(
                 children: [
-                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                         const Text(
+                          'Xin chào 👋',
+                          style: TextStyle(
+                              fontFamily: 'TodoAi-Book', fontSize: 15),
+                        ),
+                        Text(
+                          '${userCurrent?.name}',
+                          style:  const TextStyle(
+                              fontFamily: 'TodoAi-Bold', fontSize: 15),
+                        )
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: 60,
                     width: 45,
@@ -116,41 +133,9 @@ class _TodoPageState extends State<TodoPage> {
                       ],
                     ),
                   ),
-                  Container(
-                    height: 60,
-                    width: 100,
-                    margin: const EdgeInsets.only(top: 15, right: 10),
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Xin chào 👋',
-                          style: TextStyle(
-                              fontFamily: 'TodoAi-Book', fontSize: 15),
-                        ),
-                        Text(
-                          '${userCurrent?.name}',
-                          style: const TextStyle(
-                              fontFamily: 'TodoAi-Bold', fontSize: 15),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Image.asset('assets/icons/search_icon.png'),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Image.asset('assets/icons/notify_icon.png'),
-                        ),
-                        const Padding(padding: EdgeInsets.only(right: 5))
-                      ],
-                    ),
-                  ),
+                  const SizedBox(
+                    width: 5,
+                  )
                 ],
               ),
             ),
@@ -176,11 +161,9 @@ class _TodoPageState extends State<TodoPage> {
             SizedBox(
               child: AnimatedList(
                   shrinkWrap: true,
-                  key: list1Key,
-                  initialItemCount:
-                      tasks.length,
+
+                  initialItemCount: tasks.length,
                   itemBuilder: (context, index, animation) {
-                    
                     if (tasks[index].isComplete) {
                       return const SizedBox.shrink();
                     } else {
@@ -199,11 +182,9 @@ class _TodoPageState extends State<TodoPage> {
             SizedBox(
               child: AnimatedList(
                   shrinkWrap: true,
-                  key: list2Key,
-                  initialItemCount:
-                      tasks.length,
+
+                  initialItemCount: tasks.length,
                   itemBuilder: (context, index, animation) {
-                    
                     if (tasks[index].isComplete) {
                       return ListItemWidget(
                         task: tasks[index],
@@ -211,7 +192,6 @@ class _TodoPageState extends State<TodoPage> {
                         onClicked: () => handleListItemClick(index),
                       );
                     } else {
-                      
                       return const SizedBox.shrink();
                     }
                   }),
@@ -220,23 +200,23 @@ class _TodoPageState extends State<TodoPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+       
+          showModalBottomSheet(
+              backgroundColor: Colors.transparent,
+              context: context,
+              isScrollControlled: true,
+              builder: (context) {
+                return AddTask();
+              });
+        },
         child: Image.asset('assets/icons/Add_icon.png'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  void removeTask(int index) {
-    final removeTask = tasks[index];
-
-    tasks.removeAt(index);
-    list1Key.currentState!.removeItem(
-      index,
-      (context, animation) => ListItemWidget(
-          animation: animation, task: removeTask, onClicked: () {}),
-    );
-  }
+  
 
   void handleListItemClick(int index) {
     setState(() {

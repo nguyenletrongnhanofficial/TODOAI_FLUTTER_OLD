@@ -228,7 +228,7 @@ scroll() {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 130,
+      height: 140,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
