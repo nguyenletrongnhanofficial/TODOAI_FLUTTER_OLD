@@ -40,6 +40,7 @@ class _TodoPageState extends State<TodoPage> {
   //
   late String current_user_id;
   final CurrentUser _currentUser = CurrentUser();
+  bool _isFirstLoad = true;
   @override
   void initState() {
     super.initState();
@@ -48,11 +49,15 @@ class _TodoPageState extends State<TodoPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _currentUser.current_user_id =
-        Provider.of<UserProvider>(context, listen: false).current_user_id;
-    Provider.of<CardProfileProvider>(context)
-        .fetchCurrentUser(_currentUser.current_user_id);
-    Provider.of<TaskProvider>(context).getAllTask(_currentUser.current_user_id);
+   
+      _currentUser.current_user_id =
+          Provider.of<UserProvider>(context, listen: false).current_user_id;
+      Provider.of<CardProfileProvider>(context)
+          .fetchCurrentUser(_currentUser.current_user_id);
+      Provider.of<TaskProvider>(context, listen:  false)
+          .getAllTask(_currentUser.current_user_id);
+      
+    
   }
 
   //
@@ -69,7 +74,7 @@ class _TodoPageState extends State<TodoPage> {
           builder: (context, taskData, child) => Column(
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.only(top: 20, left: 20, right: 5),
+                margin: const EdgeInsets.only(top: 20, left: 20, right: 15),
                 height: 70,
                 child: Row(
                   children: [
@@ -91,8 +96,8 @@ class _TodoPageState extends State<TodoPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 60,
-                      width: 45,
+                      height: 65,
+                      width: 50,
                       child: Stack(
                         fit: StackFit.expand,
                         children: [
@@ -161,9 +166,9 @@ class _TodoPageState extends State<TodoPage> {
               const SizedBox(
                 height: 5,
               ),
-              SizedBox(
-                height: 280,
-                child: SingleChildScrollView(
+              SingleChildScrollView(
+                child: SizedBox(
+                  height: 280,
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: taskData.task.length,

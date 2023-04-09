@@ -62,7 +62,7 @@ class _AddTaskState extends State<AddTask> {
         "title": title,
         "date": date,
         "user": current_user_id,
-        "color": 3,
+        "color": selectColor,
       });
       if (response.statusCode == 200) {
         Navigator.pop(context);
@@ -114,7 +114,7 @@ class _AddTaskState extends State<AddTask> {
                   ),
                 ),
                 Text(
-                  ' họp nhóm /21:30 21.04.2023 //chủ đề về ăn uống',
+                  ' họp nhóm/21:30 21.04.2023//chủ đề về ăn uống',
                   style: TextStyle(fontSize: 10, fontFamily: "TodoAi-Book"),
                 )
               ],

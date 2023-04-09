@@ -26,7 +26,4 @@ class TaskProvider with ChangeNotifier {
       notifyListeners();
     }
   }
-
-
- 
 }
