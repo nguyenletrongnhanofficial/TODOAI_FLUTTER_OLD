@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -38,26 +40,27 @@ class CurrentUser {
 //
 class _TodoPageState extends State<TodoPage> {
   //
+  final _dio = Dio();
   late String current_user_id;
   final CurrentUser _currentUser = CurrentUser();
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      setState(() {});
+      _currentUser.current_user_id =
+          Provider.of<UserProvider>(context, listen: false).current_user_id;
+      Provider.of<CardProfileProvider>(context)
+          .fetchCurrentUser(_currentUser.current_user_id);
+      Provider.of<TaskProvider>(context)
+          .getAllTask(_currentUser.current_user_id);
+    });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _currentUser.current_user_id =
-        Provider.of<UserProvider>(context, listen: false).current_user_id;
-    Provider.of<CardProfileProvider>(context)
-        .fetchCurrentUser(_currentUser.current_user_id);
-    Provider.of<TaskProvider>(context).getAllTask(_currentUser.current_user_id);
   }
-
-  //
-  final focusNode = FocusNode();
-  final _dio = Dio();
 
   @override
   Widget build(BuildContext context) {

@@ -18,15 +18,10 @@ class TaskProvider with ChangeNotifier {
       for (int i = 0; i < taskServer.length; i++) {
         _task.add(Task.toTask(taskServer[i] as Map<String, dynamic>));
       }
-      print(taskServer);
-
       notifyListeners();
     } catch (e) {
       _task = [];
       notifyListeners();
     }
   }
-
-
- 
 }
