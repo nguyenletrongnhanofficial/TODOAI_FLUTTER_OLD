@@ -1,9 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:provider/provider.dart';
+import 'package:todoai/config/config.dart';
+import 'package:todoai/providers/user_provider.dart';
 
 class AddTask extends StatefulWidget {
-  AddTask({super.key});
+  const AddTask({super.key});
 
   @override
   State<AddTask> createState() => _AddTaskState();
@@ -12,6 +16,9 @@ class AddTask extends StatefulWidget {
 class _AddTaskState extends State<AddTask> {
   int selectColor = 0;
   final _focusNode = FocusNode();
+  final _dio = Dio();
+  TextEditingController textEditingController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +34,43 @@ class _AddTaskState extends State<AddTask> {
         .dispose(); // Đảm bảo giải phóng FocusNode khi không cần thiết nữa
     super.dispose();
   } // Tạo FocusNode mới
+
+  late String current_user_id;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    current_user_id =
+        Provider.of<UserProvider>(context, listen: false).current_user_id;
+  }
+
+  Future<void> postTask() async {
+    try {
+      RegExp timePattern = RegExp(r'\/(\d{2}:\d{2})');
+      RegExp datePattern = RegExp(r'(\d{2}\.\d{2}\.\d{4})');
+      RegExp descPattern = RegExp(r'\/\/(.*)');
+
+      String title = textEditingController.text.split('/').first.trim();
+      String time =
+          timePattern.firstMatch(textEditingController.text)?.group(1) ?? '';
+      String date =
+          datePattern.firstMatch(textEditingController.text)?.group(1) ?? '';
+      String description =
+          descPattern.firstMatch(textEditingController.text)?.group(1) ?? '';
+
+      var response = await _dio.post("$baseUrl/task/addTask", data: {
+        "title": title,
+        "date": date,
+        "user": current_user_id,
+        "color": 3,
+      });
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +88,7 @@ class _AddTaskState extends State<AddTask> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              controller: textEditingController,
               focusNode: _focusNode,
               style: const TextStyle(fontSize: 16, fontFamily: "TodoAi-Book"),
               decoration: const InputDecoration(
@@ -89,7 +134,7 @@ class _AddTaskState extends State<AddTask> {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
-                       selectColor = index;
+                      selectColor = index;
                     });
                   },
                   child: Padding(
@@ -109,11 +154,13 @@ class _AddTaskState extends State<AddTask> {
                                           : index == 5
                                               ? Colors.deepPurple
                                               : Colors.black,
-                        child:selectColor==index? const Icon(
-                          Icons.done,
-                          color: Colors.white,
-                          size: 14,
-                        ):const SizedBox(),                      
+                      child: selectColor == index
+                          ? const Icon(
+                              Icons.done,
+                              color: Colors.white,
+                              size: 14,
+                            )
+                          : const SizedBox(),
                     ),
                   ),
                 );
@@ -167,7 +214,7 @@ class _AddTaskState extends State<AddTask> {
                     children: [
                       IconButton(
                         iconSize: 35,
-                        onPressed: () {},
+                        onPressed: postTask,
                         icon: Image.asset('assets/icons/done_icon.gif'),
                       ),
                       const Padding(padding: EdgeInsets.only(right: 5))

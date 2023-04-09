@@ -1,9 +1,28 @@
-class ListTask {
-   String title;
-   String date;
-   int color;
-   bool isComplete;
+class Task {
+  final String id;
+  final String title;
+  final String date;
+  final String describe;
+  final int color;
 
-   ListTask(
-      { required this.date, required this.title, required this.color, this.isComplete = false});
+  bool isComplete;
+
+  Task(
+      {required this.id,
+      required this.date,
+      required this.title,
+      required this.isComplete,
+      required this.describe,
+      required this.color});
+
+  static toTask(Map<String, dynamic> data) {
+    return Task(
+      id: data["_id"] ?? "",
+      date: data["date"] ?? "",
+      title: data["title"] ?? "",
+      isComplete: data["isComplete"] ?? "",
+      describe: data["describe"] ?? "",
+      color: data["color"]??"",
+    );
+  }
 }
