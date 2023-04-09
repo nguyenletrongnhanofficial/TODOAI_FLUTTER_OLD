@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:todoai/pages/todo_page/todo_page.dart';
 import 'package:todoai/providers/task_provider.dart';
@@ -11,16 +10,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-
-
-
 final screens = [];
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider.value(value: UserProvider()),
     ChangeNotifierProvider.value(value: CardProfileProvider()),
-     ChangeNotifierProvider.value(value: TaskProvider()),
+    ChangeNotifierProvider.value(value: TaskProvider()),
   ], child: const MyApp()));
 }
 
@@ -31,7 +27,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xFFEEF1F8),
         primarySwatch: Colors.blue,
@@ -46,7 +41,7 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
-      localizationsDelegates: const [      
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
