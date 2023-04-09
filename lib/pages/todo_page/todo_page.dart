@@ -51,9 +51,9 @@ class _TodoPageState extends State<TodoPage> {
       setState(() {});
       _currentUser.current_user_id =
           Provider.of<UserProvider>(context, listen: false).current_user_id;
-      Provider.of<CardProfileProvider>(context)
+      Provider.of<CardProfileProvider>(context, listen: false)
           .fetchCurrentUser(_currentUser.current_user_id);
-      Provider.of<TaskProvider>(context)
+      Provider.of<TaskProvider>(context, listen: false)
           .getAllTask(_currentUser.current_user_id);
     });
   }
@@ -182,6 +182,8 @@ class _TodoPageState extends State<TodoPage> {
                                     _dio.put(
                                         "$baseUrl/task/updateTask/${taskData.task[index].id}",
                                         data: {"isComplete": true}),
+                                        Provider.of<TaskProvider>(context, listen: false)
+          .getAllTask(_currentUser.current_user_id)
                                   });
                           ;
                         }
@@ -202,6 +204,8 @@ class _TodoPageState extends State<TodoPage> {
                             _dio.put(
                                 "$baseUrl/task/updateTask/${taskData.task[index].id}",
                                 data: {"isComplete": false}),
+                                Provider.of<TaskProvider>(context, listen: false)
+          .getAllTask(_currentUser.current_user_id)
                           },
                         );
                       } else {
