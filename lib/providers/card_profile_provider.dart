@@ -26,7 +26,7 @@ class CardProfileProvider with ChangeNotifier {
         return;
       }
       user = User.fromJson(extractedData['message']);
-      print(extractedData);
+    
       notifyListeners();
     } catch (error) {
       throw (error);
