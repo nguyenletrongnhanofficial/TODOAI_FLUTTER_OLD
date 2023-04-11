@@ -70,7 +70,7 @@ class _TodoPageState extends State<TodoPage> {
     });
   }
 
-  countTaskDoneComplete(List<Task> list, String date) {
+  countTaskDontComplete(List<Task> list, String date) {
     int countTask = 0;
     for (int i = 0; i < list.length; i++) {
       if (list[i].isComplete == false && list[i].date == date) {
@@ -179,7 +179,7 @@ class _TodoPageState extends State<TodoPage> {
                     ),
                     Image.asset('assets/icons/loudspeaker_icon.png'),
                     Text(
-                        'Bạn có ${countTaskDoneComplete(taskData.task, dateNowFormat)} công việc cần làm trong hôm nay')
+                        'Bạn có ${countTaskDontComplete(taskData.task, dateNowFormat)} công việc cần làm trong hôm nay')
                   ],
                 ),
               ),

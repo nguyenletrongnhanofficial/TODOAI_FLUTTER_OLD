@@ -16,6 +16,10 @@ class CircleProgress extends StatefulWidget {
 persenDay(List<Task> list, String date) {
   double countComplete = 0;
   double countTask = 0;
+  double none = 1;
+  if (list.isEmpty) {
+    return none;
+  }
   for (int i = 0; i < list.length; i++) {
     if (list[i].date == date) {
       countTask++;
@@ -29,22 +33,13 @@ persenDay(List<Task> list, String date) {
   return countComplete / countTask;
 }
 
-List<DateTime> calculateWeekDays() {
-  DateTime now = DateTime.now();
-  int currentDayOfWeek = now.weekday;
-  List<DateTime> days = [];
-
-  for (int i = 1; i <= 7; i++) {
-    DateTime day = now.add(Duration(days: i - currentDayOfWeek));
-    days.add(day);
-  }
-
-  return days;
-}
-
 persenWeek(List<Task> list, List<DateTime> currentWeek) {
   double countComplete = 0;
   double countTask = 0;
+  double none = 1;
+  if (list.isEmpty) {
+    return none;
+  }
   for (int i = 0; i < currentWeek.length; i++) {
     String dateFormat = DateFormat('dd/MM/yyyy').format(currentWeek[i]);
 
@@ -56,7 +51,7 @@ persenWeek(List<Task> list, List<DateTime> currentWeek) {
   }
 
   for (int i = 0; i < currentWeek.length; i++) {
-     String dateFormat = DateFormat('dd/MM/yyyy').format(currentWeek[i]);
+    String dateFormat = DateFormat('dd/MM/yyyy').format(currentWeek[i]);
 
     for (int j = 0; j < list.length; j++) {
       if (list[j].date == dateFormat && list[j].isComplete == true) {
@@ -70,6 +65,10 @@ persenWeek(List<Task> list, List<DateTime> currentWeek) {
 persenMonth(List<Task> list, List<DateTime> currentMonth) {
   double countComplete = 0;
   double countTask = 0;
+  double none = 1;
+  if (list.isEmpty) {
+    return none;
+  }
   for (int i = 0; i < currentMonth.length; i++) {
     String date =
         '${currentMonth[i].day}/${DateTime.now().month}/${DateTime.now().year}';
@@ -109,19 +108,18 @@ class _CircleProgressState extends State<CircleProgress> {
     super.initState();
   }
 
+  List<DateTime> currentWeekDays() {
+    DateTime now = DateTime.now();
+    int currentDayOfWeek = now.weekday;
+    List<DateTime> days = [];
 
-List<DateTime> currentWeekDays() {
-  DateTime now = DateTime.now();
-  int currentDayOfWeek = now.weekday;
-  List<DateTime> days = [];
+    for (int i = 1; i <= 7; i++) {
+      DateTime day = now.add(Duration(days: i - currentDayOfWeek));
+      days.add(day);
+    }
 
-  for (int i = 1; i <= 7; i++) {
-    DateTime day = now.add(Duration(days: i - currentDayOfWeek));
-    days.add(day);
+    return days;
   }
-
-  return days;
-}
 
   final String dateNowFormat = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
@@ -137,7 +135,6 @@ List<DateTime> currentWeekDays() {
                     width: 10,
                   ),
                   const Text('Đã hoàn thành'),
-                  Text('${currentMonthList[2].weekday}'),
                   Expanded(
                       child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -180,7 +177,7 @@ List<DateTime> currentWeekDays() {
                         circularStrokeCap: CircularStrokeCap.round,
                         center: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children:[
+                          children: [
                             const SizedBox(
                               height: 15,
                             ),
