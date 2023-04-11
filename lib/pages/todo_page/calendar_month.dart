@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:todoai/pages/todo_page/date_model.dart' as date_util;
 
 class CalendarMonth extends StatefulWidget {
-  const CalendarMonth({super.key});
-
+  final ValueChanged<DateTime> onDateTimeChanged;
+  const CalendarMonth({Key? key, required this.onDateTimeChanged}) : super(key: key);
   @override
   State<CalendarMonth> createState() => _CalendarMonthState();
 }
@@ -20,7 +20,7 @@ class _CalendarMonthState extends State<CalendarMonth> {
     currentMonthList = currentMonthList.toSet().toList();
     scrollController = ScrollController(initialScrollOffset: scroll());
     super.initState();
-    super.initState();
+   
   }
 
   Widget titleView() {
@@ -51,6 +51,7 @@ class _CalendarMonthState extends State<CalendarMonth> {
           onTap: () {
             setState(() {
               currentDateTime = currentMonthList[index];
+              widget.onDateTimeChanged(currentDateTime);
             });
           },
           child: Container(
@@ -221,6 +222,7 @@ scroll() {
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
+        widget.onDateTimeChanged(currentDateTime);
       });
     }
   }
@@ -234,6 +236,7 @@ scroll() {
           children: <Widget>[
             titleView(),
             hrizontalCapsuleListView(),
+            
           ]),
     );
   }

@@ -2,8 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todoai/config/config.dart';
+import 'package:todoai/pages/todo_page/todo_page.dart';
+import 'package:todoai/providers/task_provider.dart';
 import 'package:todoai/providers/user_provider.dart';
 
 class AddTask extends StatefulWidget {
@@ -12,6 +15,8 @@ class AddTask extends StatefulWidget {
   @override
   State<AddTask> createState() => _AddTaskState();
 }
+
+
 
 class _AddTaskState extends State<AddTask> {
   int selectColor = 0;
@@ -35,6 +40,7 @@ class _AddTaskState extends State<AddTask> {
     super.dispose();
   } // Tạo FocusNode mới
 
+  
   late String current_user_id;
 
   @override
@@ -46,18 +52,21 @@ class _AddTaskState extends State<AddTask> {
 
   Future<void> postTask() async {
     try {
-      RegExp timePattern = RegExp(r'\/(\d{2}:\d{2})');
-      RegExp datePattern = RegExp(r'(\d{2}\.\d{2}\.\d{4})');
+      RegExp timePattern = RegExp(r'\/(\d{1,2}:\d{2})?');
+      RegExp datePattern = RegExp(r'(\d{1,2}\.\d{1,2}\.\d{4})');
       RegExp descPattern = RegExp(r'\/\/(.*)');
 
       String title = textEditingController.text.split('/').first.trim();
       String time =
           timePattern.firstMatch(textEditingController.text)?.group(1) ?? '';
-      String date =
+      String dateInput =
           datePattern.firstMatch(textEditingController.text)?.group(1) ?? '';
       String description =
           descPattern.firstMatch(textEditingController.text)?.group(1) ?? '';
-      print("oke oketesst");
+      String date =
+        DateFormat('dd/MM/yyyy').format(DateFormat('dd.MM.yyyy').parse(dateInput));
+
+
       var response = await _dio.post("$baseUrl/task/addTask", data: {
         "title": title,
         "date": date,
@@ -65,6 +74,10 @@ class _AddTaskState extends State<AddTask> {
         "color": selectColor,
       });
       if (response.statusCode == 200) {
+        // ignore: use_build_context_synchronously
+        Provider.of<TaskProvider>(context, listen: false)
+            .getAllTask(current_user_id);
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       }
     } catch (e) {
