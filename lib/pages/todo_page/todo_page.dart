@@ -63,10 +63,31 @@ class _TodoPageState extends State<TodoPage> {
     super.didChangeDependencies();
   }
 
+  DateTime _selectedDateTime = DateTime.now();
+  void _handleDateTimeChanged(DateTime newDateTime) {
+    setState(() {
+      _selectedDateTime = newDateTime;
+    });
+  }
+
+  countTaskDoneComplete(List<Task> list, String date) {
+    int countTask = 0;
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].isComplete == false && list[i].date == date) {
+        countTask++;
+      }
+    }
+    return countTask;
+  }
+
   @override
   Widget build(BuildContext context) {
     final userCurrent = Provider.of<CardProfileProvider>(context).user;
     int x = 3;
+    final String dateFormat =
+        DateFormat('dd/MM/yyyy').format(_selectedDateTime);
+
+    final String dateNowFormat = DateFormat('dd/MM/yyyy').format(DateTime.now());
     return Scaffold(
       body: SingleChildScrollView(
         child: Consumer<TaskProvider>(
@@ -145,7 +166,7 @@ class _TodoPageState extends State<TodoPage> {
                   ],
                 ),
               ),
-              const CalendarMonth(),
+              CalendarMonth(onDateTimeChanged: _handleDateTimeChanged),           
               const SizedBox(
                 height: 5,
               ),
@@ -158,7 +179,7 @@ class _TodoPageState extends State<TodoPage> {
                     ),
                     Image.asset('assets/icons/loudspeaker_icon.png'),
                     Text(
-                        'Bạn có ${taskData.task.length} công việc cần làm trong hôm nay')
+                        'Bạn có ${countTaskDoneComplete(taskData.task, dateNowFormat)} công việc cần làm trong hôm nay')
                   ],
                 ),
               ),
@@ -173,19 +194,21 @@ class _TodoPageState extends State<TodoPage> {
                       itemCount: taskData.task.length,
                       itemBuilder: (context, index) {
                         Task _task = taskData.task[index];
-                        if (_task.isComplete) {
-                          return const SizedBox.shrink();
-                        } else {
+                        if (_task.isComplete == false &&
+                            _task.date == dateFormat) {
                           return ListItemWidget(
                               task: _task,
                               onClicked: () => {
                                     _dio.put(
                                         "$baseUrl/task/updateTask/${taskData.task[index].id}",
                                         data: {"isComplete": true}),
-                                        Provider.of<TaskProvider>(context, listen: false)
-          .getAllTask(_currentUser.current_user_id)
+                                    Provider.of<TaskProvider>(context,
+                                            listen: false)
+                                        .getAllTask(
+                                            _currentUser.current_user_id)
                                   });
-                          ;
+                        } else {
+                          return const SizedBox.shrink();
                         }
                       }),
                 ),
@@ -197,15 +220,16 @@ class _TodoPageState extends State<TodoPage> {
                     itemCount: taskData.task.length,
                     itemBuilder: (context, index) {
                       Task _task = taskData.task[index];
-                      if (_task.isComplete) {
+                      if (_task.isComplete == true &&
+                          _task.date == dateFormat) {
                         return ListItemWidget(
                           task: _task,
                           onClicked: () => {
                             _dio.put(
                                 "$baseUrl/task/updateTask/${taskData.task[index].id}",
                                 data: {"isComplete": false}),
-                                Provider.of<TaskProvider>(context, listen: false)
-          .getAllTask(_currentUser.current_user_id)
+                            Provider.of<TaskProvider>(context, listen: false)
+                                .getAllTask(_currentUser.current_user_id)
                           },
                         );
                       } else {
