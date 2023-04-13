@@ -87,7 +87,8 @@ class _TodoPageState extends State<TodoPage> {
     final String dateFormat =
         DateFormat('dd/MM/yyyy').format(_selectedDateTime);
 
-    final String dateNowFormat = DateFormat('dd/MM/yyyy').format(DateTime.now());
+    final String dateNowFormat =
+        DateFormat('dd/MM/yyyy').format(DateTime.now());
     return Scaffold(
       body: SingleChildScrollView(
         child: Consumer<TaskProvider>(
@@ -166,7 +167,7 @@ class _TodoPageState extends State<TodoPage> {
                   ],
                 ),
               ),
-              CalendarMonth(onDateTimeChanged: _handleDateTimeChanged),           
+              CalendarMonth(onDateTimeChanged: _handleDateTimeChanged),
               const SizedBox(
                 height: 5,
               ),
@@ -188,7 +189,7 @@ class _TodoPageState extends State<TodoPage> {
               ),
               SingleChildScrollView(
                 child: SizedBox(
-                  height: 280,
+                  height: 330,
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: taskData.task.length,
@@ -197,16 +198,17 @@ class _TodoPageState extends State<TodoPage> {
                         if (_task.isComplete == false &&
                             _task.date == dateFormat) {
                           return ListItemWidget(
+                              taskIndex: index,
                               task: _task,
-                              onClicked: () => {
-                                    _dio.put(
-                                        "$baseUrl/task/updateTask/${taskData.task[index].id}",
-                                        data: {"isComplete": true}),
-                                    Provider.of<TaskProvider>(context,
-                                            listen: false)
-                                        .getAllTask(
-                                            _currentUser.current_user_id)
-                                  });
+                              onClicked: () async {
+                                await _dio.put(
+                                    "$baseUrl/task/updateTask/${taskData.task[index].id}",
+                                    data: {"isComplete": true});
+                                // ignore: use_build_context_synchronously
+                                Provider.of<TaskProvider>(context,
+                                        listen: false)
+                                    .getAllTask(_currentUser.current_user_id);
+                              });
                         } else {
                           return const SizedBox.shrink();
                         }
@@ -223,13 +225,14 @@ class _TodoPageState extends State<TodoPage> {
                       if (_task.isComplete == true &&
                           _task.date == dateFormat) {
                         return ListItemWidget(
+                          taskIndex: index,
                           task: _task,
-                          onClicked: () => {
-                            _dio.put(
+                          onClicked: () async {
+                            await _dio.put(
                                 "$baseUrl/task/updateTask/${taskData.task[index].id}",
-                                data: {"isComplete": false}),
+                                data: {"isComplete": false});
                             Provider.of<TaskProvider>(context, listen: false)
-                                .getAllTask(_currentUser.current_user_id)
+                                .getAllTask(_currentUser.current_user_id);
                           },
                         );
                       } else {

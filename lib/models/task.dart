@@ -3,6 +3,7 @@ class Task {
   final String title;
   final String date;
   final String describe;
+  final String time;
   final int color;
 
   bool isComplete;
@@ -13,6 +14,7 @@ class Task {
       required this.title,
       required this.isComplete,
       required this.describe,
+      required this.time,
       required this.color});
 
   static toTask(Map<String, dynamic> data) {
@@ -22,7 +24,8 @@ class Task {
       title: data["title"] ?? "",
       isComplete: data["isComplete"] ?? "",
       describe: data["describe"] ?? "",
-      color: data["color"]??"",
+      time: data["time"] ?? "",
+      color: data["color"] ?? "",
     );
   }
 }

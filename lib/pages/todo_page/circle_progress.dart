@@ -17,13 +17,14 @@ persenDay(List<Task> list, String date) {
   double countComplete = 0;
   double countTask = 0;
   double none = 1;
-  if (list.isEmpty) {
-    return none;
-  }
+ 
   for (int i = 0; i < list.length; i++) {
     if (list[i].date == date) {
       countTask++;
     }
+  }
+  if (countTask == 0) {
+    return none;
   }
   for (int i = 0; i < list.length; i++) {
     if (list[i].isComplete == true && list[i].date == date) {
@@ -37,9 +38,7 @@ persenWeek(List<Task> list, List<DateTime> currentWeek) {
   double countComplete = 0;
   double countTask = 0;
   double none = 1;
-  if (list.isEmpty) {
-    return none;
-  }
+ 
   for (int i = 0; i < currentWeek.length; i++) {
     String dateFormat = DateFormat('dd/MM/yyyy').format(currentWeek[i]);
 
@@ -49,7 +48,9 @@ persenWeek(List<Task> list, List<DateTime> currentWeek) {
       }
     }
   }
-
+ if (countTask == 0) {
+    return none;
+  }
   for (int i = 0; i < currentWeek.length; i++) {
     String dateFormat = DateFormat('dd/MM/yyyy').format(currentWeek[i]);
 
@@ -66,9 +67,7 @@ persenMonth(List<Task> list, List<DateTime> currentMonth) {
   double countComplete = 0;
   double countTask = 0;
   double none = 1;
-  if (list.isEmpty) {
-    return none;
-  }
+ 
   for (int i = 0; i < currentMonth.length; i++) {
     String date =
         '${currentMonth[i].day}/${DateTime.now().month}/${DateTime.now().year}';
@@ -81,7 +80,9 @@ persenMonth(List<Task> list, List<DateTime> currentMonth) {
       }
     }
   }
-
+ if (countTask == 0) {
+    return none;
+  }
   for (int i = 0; i < currentMonth.length; i++) {
     String date =
         '${currentMonth[i].day}/${DateTime.now().month}/${DateTime.now().year}';
@@ -142,7 +143,7 @@ class _CircleProgressState extends State<CircleProgress> {
                       CircularPercentIndicator(
                         radius: 28,
                         percent: persenDay(taskData.task, dateNowFormat),
-                        progressColor: const Color(0xFF00FF8A),
+                        progressColor: Color.fromARGB(255, 125, 171, 88),
                         backgroundColor: Colors.lightGreen.shade100,
                         circularStrokeCap: CircularStrokeCap.round,
                         center: Column(
@@ -155,13 +156,14 @@ class _CircleProgressState extends State<CircleProgress> {
                               '${(persenDay(taskData.task, dateNowFormat) * 100).toStringAsFixed(0)}%',
                               style: const TextStyle(
                                 fontSize: 16,
-                                color: Color(0xFF00FF8A),
+                                color: Color.fromARGB(255, 125, 171, 88),
                               ),
                             ),
                             const Text(
                               'Ngày',
                               style: TextStyle(
-                                  fontSize: 8, color: Color(0xFF00FF8A)),
+                                  fontSize: 8,
+                                  color: Color.fromARGB(255, 125, 171, 88)),
                             )
                           ],
                         ),
