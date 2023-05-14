@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import '/config/config.dart';
@@ -22,6 +22,7 @@ class CardProfileProvider with ChangeNotifier {
     try {
       final response = await get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      // ignore: unnecessary_null_comparison
       if (extractedData == null) {
         return;
       }

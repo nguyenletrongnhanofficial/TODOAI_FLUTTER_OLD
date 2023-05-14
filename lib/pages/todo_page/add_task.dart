@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todoai/config/config.dart';
 import 'package:todoai/pages/todo_page/add_task_classic.dart';
-import 'package:todoai/pages/todo_page/todo_page.dart';
+
 import 'package:todoai/providers/task_provider.dart';
 import 'package:todoai/providers/user_provider.dart';
 

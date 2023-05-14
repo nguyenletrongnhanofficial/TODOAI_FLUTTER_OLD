@@ -8,9 +8,10 @@ import 'package:todoai/models/task.dart';
 import 'package:todoai/providers/task_provider.dart';
 import 'package:todoai/providers/user_provider.dart';
 
+
 class UpdateDeleteTask extends StatefulWidget {
-  Task task;
-  UpdateDeleteTask({super.key, required this.task});
+  final Task task;
+  const UpdateDeleteTask({super.key, required this.task});
 
   @override
   State<UpdateDeleteTask> createState() => _UpdateDeleteTaskState();
