@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todoai/models/task.dart';
-import 'package:todoai/pages/todo_page/addTask_classic.dart';
 import 'package:todoai/pages/todo_page/update_delete_task.dart';
 import 'package:todoai/providers/task_provider.dart';
 

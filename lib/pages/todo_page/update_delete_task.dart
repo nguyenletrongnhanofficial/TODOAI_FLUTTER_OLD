@@ -19,6 +19,8 @@ class UpdateDeleteTask extends StatefulWidget {
 class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
   int selectColor = 0;
   final _dio = Dio();
+  DateTime currentDateTime = DateTime.now();
+  TimeOfDay currentTime = TimeOfDay.now();
   TextEditingController titleEditingController = TextEditingController();
   TextEditingController timeEditingController = TextEditingController();
   TextEditingController dateEditingController = TextEditingController();
@@ -35,7 +37,6 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
     dateEditingController.text = widget.task.date;
     describeEditingController.text = widget.task.describe;
     selectColor = widget.task.color;
-    
   }
 
   @override
@@ -72,8 +73,7 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
 
   Future<void> deleteTask() async {
     try {
-      Response response =
-          await _dio.delete("$baseUrl/task/deleteTask/$taskId");
+      Response response = await _dio.delete("$baseUrl/task/deleteTask/$taskId");
       if (response.statusCode == 200) {
         // ignore: use_build_context_synchronously
         Provider.of<TaskProvider>(context, listen: false)
@@ -83,6 +83,35 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  void _showDatePicker() async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+      locale: const Locale('vi', 'VN'),
+    );
+    if (selectedDate != null && selectedDate != currentDateTime) {
+      setState(() {
+        currentDateTime = selectedDate;
+      });
+      dateEditingController.text =
+          DateFormat('dd/MM/yyyy').format(currentDateTime);
+    }
+  }
+
+  void _showTimePicker() async {
+    final selectedTime =
+        await showTimePicker(context: context, initialTime: currentTime);
+    if (selectedTime != null && selectedTime != currentTime) {
+      setState(() {
+        currentTime = selectedTime;
+      });
+
+      timeEditingController.text = '${currentTime.hour}:${currentTime.minute}';
     }
   }
 
@@ -136,8 +165,8 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                       padding: EdgeInsets.only(top: 10, bottom: 5),
                       child: Text(
                         'Công việc',
-                        style:
-                            TextStyle(fontSize: 16, fontFamily: "TodoAi-Medium"),
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: "TodoAi-Medium"),
                       ),
                     ),
                     TextFormField(
@@ -145,9 +174,10 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                       style: const TextStyle(
                           fontSize: 16, fontFamily: "TodoAi-Book"),
                       decoration: const InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        border:
+                            OutlineInputBorder(borderSide: BorderSide.none),
                       ),
                       maxLines: null,
                       cursorColor: Colors.black,
@@ -156,7 +186,7 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                     Row(
                       children: [
                         Flexible(
-                          flex: 4,
+                          flex: 5,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -165,22 +195,27 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                                 child: Text(
                                   'Thời gian',
                                   style: TextStyle(
-                                      fontSize: 16, fontFamily: "TodoAi-Medium"),
+                                      fontSize: 16,
+                                      fontFamily: "TodoAi-Medium"),
                                 ),
                               ),
                               TextFormField(
                                 controller: timeEditingController,
                                 style: const TextStyle(
                                     fontSize: 16, fontFamily: "TodoAi-Book"),
-                                decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 10),
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10),
                                     hintText: "hh:mm",
-                                    hintStyle: TextStyle(
-                                        fontSize: 16, fontFamily: "TodoAi-Book"),
-                                    border: OutlineInputBorder(
+                                    hintStyle: const TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: "TodoAi-Book"),
+                                    border: const OutlineInputBorder(
                                         borderSide: BorderSide.none),
-                                    prefixIcon: Icon(Icons.lock_clock_rounded)),
+                                    prefixIcon: IconButton(
+                                        onPressed: _showTimePicker,
+                                        icon: const Icon(Icons.access_time))),
                                 maxLines: null,
                                 cursorColor: Colors.black,
                                 cursorHeight: 20,
@@ -190,7 +225,7 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                         ),
                         const Expanded(flex: 1, child: SizedBox.shrink()),
                         Flexible(
-                          flex: 6,
+                          flex: 7,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -199,20 +234,24 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                                 child: Text(
                                   'Ngày',
                                   style: TextStyle(
-                                      fontSize: 16, fontFamily: "TodoAi-Medium"),
+                                      fontSize: 16,
+                                      fontFamily: "TodoAi-Medium"),
                                 ),
                               ),
                               TextFormField(
                                 controller: dateEditingController,
                                 style: const TextStyle(
                                     fontSize: 16, fontFamily: "TodoAi-Book"),
-                                decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 10),
-                                    border: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10),
+                                    border: const OutlineInputBorder(
                                         borderSide: BorderSide.none),
-                                    prefixIcon:
-                                        Icon(Icons.calendar_month_rounded)),
+                                    prefixIcon: IconButton(
+                                        onPressed: _showDatePicker,
+                                        icon: const Icon(
+                                            Icons.calendar_month_rounded))),
                                 maxLines: null,
                                 cursorColor: Colors.black,
                                 cursorHeight: 20,
@@ -226,8 +265,8 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                       padding: EdgeInsets.only(top: 10, bottom: 5),
                       child: Text(
                         'Màu sắc',
-                        style:
-                            TextStyle(fontSize: 16, fontFamily: "TodoAi-Medium"),
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: "TodoAi-Medium"),
                       ),
                     ),
                     Stack(children: [
@@ -251,7 +290,8 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                                 });
                               },
                               child: Padding(
-                                padding: const EdgeInsets.fromLTRB(5, 8, 5, 8),
+                                padding:
+                                    const EdgeInsets.fromLTRB(5, 8, 5, 8),
                                 child: CircleAvatar(
                                   radius: 10,
                                   backgroundColor: index == 0
@@ -285,8 +325,8 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                       padding: EdgeInsets.only(top: 10, bottom: 5),
                       child: Text(
                         'Mô tả',
-                        style:
-                            TextStyle(fontSize: 16, fontFamily: "TodoAi-Medium"),
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: "TodoAi-Medium"),
                       ),
                     ),
                     Container(
@@ -312,8 +352,8 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(16))),
                           hintText: "Thêm mô tả...",
-                          hintStyle:
-                              TextStyle(fontSize: 16, fontFamily: "TodoAi-Book"),
+                          hintStyle: TextStyle(
+                              fontSize: 16, fontFamily: "TodoAi-Book"),
                         ),
                         maxLines: null,
                         cursorColor: Colors.black,
@@ -329,12 +369,13 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                         ElevatedButton(
                             onPressed: deleteTask,
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFFFFEDED),
-                                minimumSize: Size(80, 45),
+                                backgroundColor: const Color(0xFFFFEDED),
+                                minimumSize: const Size(80, 45),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20))),
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              padding:
+                                  const EdgeInsets.only(right: 10, left: 10),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
@@ -350,14 +391,14 @@ class _UpdateDeleteTaskState extends State<UpdateDeleteTask> {
                               ),
                             )),
                         ElevatedButton(
-                             onPressed: updateTask,
+                            onPressed: updateTask,
                             style: ElevatedButton.styleFrom(
-                              
-                                minimumSize: Size(80, 45),
+                                minimumSize: const Size(80, 45),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20))),
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              padding:
+                                  const EdgeInsets.only(right: 10, left: 10),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [

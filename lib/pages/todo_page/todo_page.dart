@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todoai/config/config.dart';
 import 'package:todoai/models/task.dart';
-import 'package:todoai/pages/todo_page/addTask.dart';
+import 'package:todoai/pages/todo_page/add_task.dart';
 import 'dart:core';
 import 'package:todoai/pages/todo_page/calendar_month.dart';
 import 'package:todoai/pages/todo_page/circle_progress.dart';
@@ -95,7 +95,7 @@ class _TodoPageState extends State<TodoPage> {
           builder: (context, taskData, child) => Column(
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.only(top: 20, left: 20, right: 15),
+                margin: const EdgeInsets.only(top: 20, left: 70),
                 height: 70,
                 child: Row(
                   children: [
@@ -118,21 +118,23 @@ class _TodoPageState extends State<TodoPage> {
                     ),
                     SizedBox(
                       height: 65,
-                      width: 50,
+                      width: 60,
                       child: Stack(
                         fit: StackFit.expand,
                         children: [
                           const Positioned(
+                            right: 0,
                             height: 45,
                             bottom: 8,
                             child: CircleAvatar(
+                              radius: 30,
                               backgroundImage:
                                   AssetImage('assets/icons/avatar.png'),
                             ),
                           ),
                           Positioned(
-                              bottom: 2,
-                              right: 0,
+                              bottom: 7,
+                              left: 0,
                               child: Container(
                                 height: 18,
                                 width: 25,
@@ -162,7 +164,7 @@ class _TodoPageState extends State<TodoPage> {
                       ),
                     ),
                     const SizedBox(
-                      width: 5,
+                      width: 20,
                     )
                   ],
                 ),
