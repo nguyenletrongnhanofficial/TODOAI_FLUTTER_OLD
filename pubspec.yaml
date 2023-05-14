@@ -17,7 +17,6 @@ dependencies:
   shared_preferences: ^2.0.20
   http: ^0.13.5
   sqflite:
-  flutter_cupertino_date_picker: ^1.0.26+2
   percent_indicator: ^4.2.3
   flutter_localizations:
     sdk: flutter
