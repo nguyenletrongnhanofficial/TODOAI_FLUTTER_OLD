@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import '/pages/entryPoint/entry_point.dart';
@@ -67,6 +67,7 @@ class _SignInFormState extends State<SignInForm> {
         if (response.statusCode == 200) {
           final extractedData =
               json.decode(response.body) as Map<String, dynamic>;
+          // ignore: unnecessary_null_comparison
           if (extractedData == null) {
             return;
           }

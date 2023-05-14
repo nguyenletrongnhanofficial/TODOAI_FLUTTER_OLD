@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todoai/pages/todo_page/todo_page.dart';
+
 import 'package:todoai/providers/task_provider.dart';
-import 'pages/entryPoint/entry_point.dart';
+
 import 'pages/onboding/onboding_screen.dart';
 import 'package:provider/provider.dart';
 import '/providers/user_provider.dart';

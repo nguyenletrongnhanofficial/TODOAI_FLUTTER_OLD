@@ -3,11 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import '/constants.dart';
-import '/pages/home/home_screen.dart';
-import '/utils/rive_utils.dart';
+
 import 'package:todoai/pages/todo_page/todo_page.dart';
 import '/models/menu.dart';
-import 'components/btm_nav_item.dart';
+
 import 'components/menu_btn.dart';
 import 'components/side_bar.dart';
 

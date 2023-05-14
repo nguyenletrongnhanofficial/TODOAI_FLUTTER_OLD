@@ -1,4 +1,4 @@
-import 'dart:async';
+
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +10,11 @@ import 'dart:core';
 import 'package:todoai/pages/todo_page/calendar_month.dart';
 import 'package:todoai/pages/todo_page/circle_progress.dart';
 import 'package:todoai/pages/todo_page/list_item_widget.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+
 //
-import 'package:flutter/material.dart';
+
 import 'package:todoai/providers/task_provider.dart';
-import '/models/course.dart';
+
 import 'package:provider/provider.dart';
 import '/providers/card_profile_provider.dart';
 import '/providers/user_provider.dart';
@@ -43,7 +43,7 @@ class _TodoPageState extends State<TodoPage> {
   final _dio = Dio();
   late String current_user_id;
   final CurrentUser _currentUser = CurrentUser();
-  bool _isFirstLoad = true;
+
   @override
   void initState() {
     super.initState();
@@ -83,7 +83,7 @@ class _TodoPageState extends State<TodoPage> {
   @override
   Widget build(BuildContext context) {
     final userCurrent = Provider.of<CardProfileProvider>(context).user;
-    int x = 3;
+  
     final String dateFormat =
         DateFormat('dd/MM/yyyy').format(_selectedDateTime);
 

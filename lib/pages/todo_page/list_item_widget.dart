@@ -4,9 +4,10 @@ import 'package:todoai/models/task.dart';
 import 'package:todoai/pages/todo_page/update_delete_task.dart';
 import 'package:todoai/providers/task_provider.dart';
 
+
 class ListItemWidget extends StatelessWidget {
-  int taskIndex;
-  Task task;
+  final int taskIndex;
+  final Task task;
   final VoidCallback? onClicked;
   ListItemWidget(
       {super.key,
