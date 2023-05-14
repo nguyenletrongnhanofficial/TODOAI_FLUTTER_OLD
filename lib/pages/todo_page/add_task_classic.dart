@@ -14,18 +14,26 @@ class AddTaskClassic extends StatefulWidget {
   @override
   State<AddTaskClassic> createState() => _AddTaskClassicState();
 }
-int selectColor = 0;
 
+int selectColor = 0;
 
 class _AddTaskClassicState extends State<AddTaskClassic> {
   int selectColor = 0;
-   final _dio = Dio();
+  final _dio = Dio();
+  DateTime currentDateTime = DateTime.now();
+  TimeOfDay currentTime = TimeOfDay.now();
   TextEditingController titleEditingController = TextEditingController();
-TextEditingController timeEditingController = TextEditingController();
-TextEditingController dateEditingController = TextEditingController();
-TextEditingController describeEditingController = TextEditingController();
+  TextEditingController timeEditingController = TextEditingController();
+  TextEditingController dateEditingController = TextEditingController();
+  TextEditingController describeEditingController = TextEditingController();
 
-late String current_user_id;
+  late String current_user_id;
+  @override
+  void initState() {
+    dateEditingController.text =
+        DateFormat('dd/MM/yyyy').format(currentDateTime);
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -36,18 +44,20 @@ late String current_user_id;
 
   Future<void> postTask() async {
     try {
-    
-      
       String date = DateFormat('dd/MM/yyyy')
-          .format(DateFormat('dd.MM.yyyy').parse(dateEditingController.text));
+          .format(DateFormat('dd/MM/yyyy').parse(dateEditingController.text));
 
       var response = await _dio.post("$baseUrl/task/addTask", data: {
         "title": titleEditingController.text,
         "date": date,
         "user": current_user_id,
         "color": selectColor,
-        "describe":describeEditingController.text,
-        "time": timeEditingController.text,
+        "describe": describeEditingController.text.isEmpty
+            ? "Không có mô tả"
+            : describeEditingController.text,
+        "time": timeEditingController.text.isEmpty
+            ? ""
+            : timeEditingController.text,
       });
       if (response.statusCode == 200) {
         // ignore: use_build_context_synchronously
@@ -60,6 +70,35 @@ late String current_user_id;
       print(e);
     }
   }
+
+  void _showDatePicker() async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+      locale: const Locale('vi', 'VN'),
+    );
+    if (selectedDate != null && selectedDate != currentDateTime) {
+      setState(() {
+        currentDateTime = selectedDate;
+      });
+      dateEditingController.text =
+          DateFormat('dd/MM/yyyy').format(currentDateTime);
+    }
+  }
+
+  void _showTimePicker() async {
+    final selectedTime =
+        await showTimePicker(context: context, initialTime: currentTime);
+    if (selectedTime != null && selectedTime != currentTime) {
+      setState(() {
+        currentTime = selectedTime;
+      });
+      timeEditingController.text = '${currentTime.hour}:${currentTime.minute}';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -110,8 +149,8 @@ late String current_user_id;
                       padding: EdgeInsets.only(top: 10, bottom: 5),
                       child: Text(
                         'Công việc',
-                        style:
-                            TextStyle(fontSize: 16, fontFamily: "TodoAi-Medium"),
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: "TodoAi-Medium"),
                       ),
                     ),
                     TextFormField(
@@ -133,7 +172,7 @@ late String current_user_id;
                     Row(
                       children: [
                         Flexible(
-                          flex: 4,
+                          flex: 5,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -142,22 +181,26 @@ late String current_user_id;
                                 child: Text(
                                   'Thời gian',
                                   style: TextStyle(
-                                      fontSize: 16, fontFamily: "TodoAi-Medium"),
+                                      fontSize: 16,
+                                      fontFamily: "TodoAi-Medium"),
                                 ),
                               ),
                               TextFormField(
                                 controller: timeEditingController,
                                 style: const TextStyle(
                                     fontSize: 16, fontFamily: "TodoAi-Book"),
-                                decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
                                         vertical: 10, horizontal: 10),
                                     hintText: "hh:mm",
-                                    hintStyle: TextStyle(
-                                        fontSize: 16, fontFamily: "TodoAi-Book"),
-                                    border: OutlineInputBorder(
+                                    hintStyle: const TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: "TodoAi-Book"),
+                                    border: const OutlineInputBorder(
                                         borderSide: BorderSide.none),
-                                    prefixIcon: Icon(Icons.lock_clock_rounded)),
+                                    prefixIcon: IconButton(
+                                        onPressed: _showTimePicker,
+                                        icon: const Icon(Icons.access_time))),
                                 maxLines: null,
                                 cursorColor: Colors.black,
                                 cursorHeight: 20,
@@ -165,10 +208,9 @@ late String current_user_id;
                             ],
                           ),
                         ),
-                        
-                       const Expanded(flex: 1,child: SizedBox.shrink()),
+                        const Expanded(flex: 1, child: SizedBox.shrink()),
                         Flexible(
-                          flex: 6,
+                          flex: 7,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -177,23 +219,23 @@ late String current_user_id;
                                 child: Text(
                                   'Ngày',
                                   style: TextStyle(
-                                      fontSize: 16, fontFamily: "TodoAi-Medium"),
+                                      fontSize: 16,
+                                      fontFamily: "TodoAi-Medium"),
                                 ),
                               ),
                               TextFormField(
                                 controller: dateEditingController,
                                 style: const TextStyle(
                                     fontSize: 16, fontFamily: "TodoAi-Book"),
-                                decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
                                         vertical: 10, horizontal: 10),
-                                    hintText: "dd.mm.yyyy",
-                                    hintStyle: TextStyle(
-                                        fontSize: 16, fontFamily: "TodoAi-Book"),
-                                    border: OutlineInputBorder(
+                                    border: const OutlineInputBorder(
                                         borderSide: BorderSide.none),
-                                    prefixIcon:
-                                        Icon(Icons.calendar_month_rounded)),
+                                    prefixIcon: IconButton(
+                                        onPressed: _showDatePicker,
+                                        icon: const Icon(
+                                            Icons.calendar_month_rounded))),
                                 maxLines: null,
                                 cursorColor: Colors.black,
                                 cursorHeight: 20,
@@ -207,8 +249,8 @@ late String current_user_id;
                       padding: EdgeInsets.only(top: 10, bottom: 5),
                       child: Text(
                         'Màu sắc',
-                        style:
-                            TextStyle(fontSize: 16, fontFamily: "TodoAi-Medium"),
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: "TodoAi-Medium"),
                       ),
                     ),
                     Stack(children: [
@@ -266,14 +308,15 @@ late String current_user_id;
                       padding: EdgeInsets.only(top: 10, bottom: 5),
                       child: Text(
                         'Mô tả',
-                        style:
-                            TextStyle(fontSize: 16, fontFamily: "TodoAi-Medium"),
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: "TodoAi-Medium"),
                       ),
                     ),
                     Container(
                       height: 80,
                       decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(16)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
                           border: Border.all(
                             color: const Color(0xFFDEE3F2),
                             width: 1,
@@ -292,8 +335,8 @@ late String current_user_id;
                               borderRadius:
                                   BorderRadius.all(Radius.circular(16))),
                           hintText: "Thêm mô tả...",
-                          hintStyle:
-                              TextStyle(fontSize: 16, fontFamily: "TodoAi-Book"),
+                          hintStyle: TextStyle(
+                              fontSize: 16, fontFamily: "TodoAi-Book"),
                         ),
                         maxLines: null,
                         cursorColor: Colors.black,
@@ -306,8 +349,8 @@ late String current_user_id;
                     ElevatedButton(
                         onPressed: postTask,
                         style: ButtonStyle(
-                          minimumSize:
-                              MaterialStateProperty.all<Size>(const Size(200, 50)),
+                          minimumSize: MaterialStateProperty.all<Size>(
+                              const Size(200, 50)),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
