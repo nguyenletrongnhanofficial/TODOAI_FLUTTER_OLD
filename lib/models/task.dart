@@ -25,7 +25,7 @@ class Task {
       isComplete: data["isComplete"] ?? "",
       describe: data["describe"] ?? "",
       time: data["time"] ?? "",
-      color: data["color"] ?? "",
+      color: data["color"] != null ? int.parse(data["color"]) : 0,
     );
   }
 }
